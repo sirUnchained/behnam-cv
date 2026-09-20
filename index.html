@@ -1225,8 +1225,8 @@
                 const pulseMat = new THREE.PointsMaterial({ size: 0.7, map: glowTex, transparent: true, depthWrite: false, sizeAttenuation: true });
 
                 // ----- Build layers & neurons -----
-                const LAYERS = [5, 8, 9, 8, 4];   // neurons per layer (input → hidden → output)
-                const GAP = 4.4;                   // distance between layers
+                const LAYERS = [5, 8, 8, 4];   // neurons per layer (input → hidden → output)
+                const GAP = 4.6;                   // distance between layers
                 const nodes = [];
                 const layerNodes = [];
 
@@ -1288,7 +1288,7 @@
                 net.add(pulseCloud);
 
                 // ----- Depth dust -----
-                const DUST = 320;
+                const DUST = 250;
                 const dustPos = new Float32Array(DUST * 3);
                 for (let i = 0; i < DUST; i++) {
                     dustPos[i * 3] = (Math.random() - 0.5) * 60;
