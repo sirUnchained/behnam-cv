@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Behnam Bahadorpour - CV</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
+
+    <style>
+        :root {
+            --primary-color: #0A4A7A;
+            --secondary-color: #E6F0F5;
+            --text-color: #333;
+            --muted-text: #555;
+            /* جدید: برای متن‌های توضیحات */
+            --date-color: #777;
+            /* جدید: برای تاریخ‌ها */
+            --bg-color: #f4f4f9;
+            --card-bg: #ffffff;
+            --border-color: #ddd;
+            --font-en: 'Inter', sans-serif;
+            --font-fa: 'Vazirmatn', sans-serif;
+        }
+
+        [data-theme="dark"] {
+            --primary-color: #4A90E2;
+            --secondary-color: #2a2a2a;
+            --text-color: #e0e0e0;
+            --muted-text: #b0b0b0;
+            /* جدید: خاکستری روشن برای متن‌ها */
+            --date-color: #999;
+            /* جدید: خاکستری روشن برای تاریخ‌ها */
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --border-color: #333;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-en);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
+            padding: 20px;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: var(--card-bg);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        html[dir="rtl"] body {
+            font-family: var(--font-fa);
+        }
+
+        html[dir="rtl"] .contact-info span {
+            flex-direction: row-reverse;
+        }
+
+        html[dir="rtl"] .timeline-item {
+            border-left: none;
+            border-right: 2px solid var(--secondary-color);
+            padding-left: 0;
+            padding-right: 20px;
+        }
+
+        html[dir="rtl"] .timeline-item::before {
+            left: auto;
+            right: -6px;
+        }
+
+        html[dir="rtl"] .timeline-desc ul {
+            padding-left: 0;
+            padding-right: 20px;
+        }
+
+        html[dir="rtl"] .soft-skill-item::before {
+            margin-left: 8px;
+            margin-right: 0;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .header-info h1 {
+            font-size: 2.2em;
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+
+        .typed-container {
+            font-size: 1.2em;
+            font-weight: 400;
+            opacity: 0.9;
+            min-height: 1.6em;
+        }
+
+        .typed-cursor {
+            opacity: 1;
+            animation: typedjsBlink 0.7s infinite;
+        }
+
+        @keyframes typedjsBlink {
+            50% {
+                opacity: 0.0;
+            }
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            font-size: 0.9em;
+        }
+
+        .contact-info span {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .header-controls {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn-toggle {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.9em;
+            transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn-toggle:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 2.5fr;
+            gap: 30px;
+            padding: 30px;
+        }
+
+        .sidebar,
+        .content {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .section-title {
+            font-size: 1.2em;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        html[dir="rtl"] .section-title {
+            text-transform: none;
+        }
+
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .skill-tag {
+            background-color: var(--secondary-color);
+            color: var(--primary-color);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 500;
+            border: 1px solid var(--border-color);
+            font-family: var(--font-en);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .skill-tag:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .skill-tag i {
+            font-size: 1.2em;
+        }
+
+        .language-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .stars {
+            color: #f1c40f;
+            font-size: 1.1em;
+        }
+
+        .soft-skills {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .soft-skill-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9em;
+        }
+
+        .soft-skill-item::before {
+            content: "✔";
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .timeline-item {
+            margin-bottom: 20px;
+            padding-left: 20px;
+            border-left: 2px solid var(--secondary-color);
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: "";
+            position: absolute;
+            left: -6px;
+            top: 5px;
+            width: 10px;
+            height: 10px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+        }
+
+        .timeline-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            margin-bottom: 5px;
+        }
+
+        .timeline-title {
+            font-weight: 600;
+            font-size: 1.05em;
+        }
+
+        .timeline-date {
+            font-size: 0.85em;
+            color: var(--date-color);
+            white-space: nowrap;
+        }
+
+        html[dir="rtl"] .timeline-date {
+            font-family: var(--font-en);
+        }
+
+        .timeline-subtitle {
+            font-weight: 500;
+            color: var(--primary-color);
+            margin-bottom: 8px;
+            font-size: 0.95em;
+        }
+
+        .timeline-desc {
+            font-size: 0.9em;
+            color: var(--muted-text);
+        }
+
+        .timeline-desc ul {
+            list-style-type: disc;
+            padding-left: 20px;
+            margin-top: 5px;
+        }
+
+        .timeline-desc li {
+            margin-bottom: 5px;
+        }
+
+        .project-link {
+            display: inline-block;
+            margin-top: 8px;
+            font-size: 0.85em;
+            color: var(--primary-color);
+            text-decoration: none;
+            word-break: break-all;
+        }
+
+        .project-link:hover {
+            text-decoration: underline;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .footer-btn {
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 0.9em;
+            font-weight: 500;
+            transition: opacity 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-btn:hover {
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .timeline-header {
+                flex-direction: column;
+            }
+
+            html[dir="rtl"] header {
+                align-items: flex-end;
+            }
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .container {
+                box-shadow: none;
+                border: none;
+            }
+
+            .header-controls {
+                display: none;
+            }
+
+            .footer-links {
+                display: none;
+            }
+
+            .timeline-item {
+                page-break-inside: avoid;
+            }
+
+            #particles-js {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="particles-js"></div>
+
+    <div class="container">
+        <header>
+            <div class="header-info">
+                <h1 data-en="Behnam Bahadorpour" data-fa="بهنام بهادرپور">Behnam Bahadorpour</h1>
+                <div class="typed-container">
+                    <span id="typed-text"></span>
+                </div>
+            </div>
+            <div class="contact-info">
+                <span>📧 bbehnam3831@gmail.com</span>
+                <span>📍 <span data-en="Tehran - Tehran" data-fa="تهران - تهران">Tehran - Tehran</span></span>
+                <span>🛡️ <span data-en="Military Status: Educational Exempt"
+                        data-fa="وضعیت سربازی: معافیت تحصیلی">Military Status: Educational Exempt</span></span>
+            </div>
+            <div class="header-controls">
+                <button class="btn-toggle" id="langToggle">🇮🇷 فارسی</button>
+                <button class="btn-toggle" id="themeToggle">🌙 Dark Mode</button>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <aside class="sidebar">
+                <section>
+                    <h3 class="section-title" data-en="Skills" data-fa="مهارت‌ها">Skills</h3>
+                    <div class="skills-list">
+                        <span class="skill-tag"><i class="devicon-cplusplus-plain colored"></i> C/C++</span>
+                        <span class="skill-tag"><i class="devicon-python-plain colored"></i> Python</span>
+                        <span class="skill-tag"><i class="devicon-javascript-plain colored"></i>
+                            JavaScript/TypeScript</span>
+                        <span class="skill-tag"><i class="devicon-go-original-wordmark colored"></i> Golang</span>
+                        <span class="skill-tag"><i class="devicon-django-plain colored"></i> Django</span>
+                        <span class="skill-tag"><i class="devicon-tensorflow-original colored"></i>
+                            Tensorflow/Keras</span>
+                        <span class="skill-tag"><i class="devicon-scikitlearn-plain colored"></i> Scikit-learn</span>
+                        <span class="skill-tag"><i class="devicon-pytorch-original colored"></i> Pytorch</span>
+                        <span class="skill-tag"><i class="devicon-opencv-plain colored"></i> OpenCV</span>
+                        <span class="skill-tag"><i class="devicon-linux-plain colored"></i> Linux</span>
+                        <span class="skill-tag"><i class="devicon-postgresql-plain colored"></i> Vector DBs (Chroma,
+                            Qdrant)</span>
+                        <span class="skill-tag">LLMs</span>
+                        <span class="skill-tag">Transformers</span>
+                        <span class="skill-tag">Langchain</span>
+                        <span class="skill-tag"><i class="devicon-mongodb-plain colored"></i> <i
+                                class="devicon-redis-plain colored"></i> NoSQL (MongoDB, Redis)</span>
+                        <span class="skill-tag"><i class="devicon-docker-plain colored"></i> Docker</span>
+                        <span class="skill-tag"><i class="devicon-postgresql-plain colored"></i> <i
+                                class="devicon-mysql-plain colored"></i> SQL (PostgreSQL, MySQL)</span>
+                    </div>
+                </section>
+
+                <section>
+                    <h3 class="section-title" data-en="Languages" data-fa="زبان‌ها">Languages</h3>
+                    <div class="language-item">
+                        <span data-en="English" data-fa="انگلیسی">English</span>
+                        <span class="stars">★★★☆☆</span>
+                    </div>
+                </section>
+
+                <section>
+                    <h3 class="section-title" data-en="Soft Skills" data-fa="مهارت‌های نرم">Soft Skills</h3>
+                    <div class="soft-skills">
+                        <div class="soft-skill-item" data-en="Fast Learning" data-fa="یادگیری سریع">Fast Learning
+                        </div>
+                        <div class=" soft-skill-item" data-en="Problem Solving" data-fa="حل مسئله">Problem Solving
+                        </div>
+                        <div class="soft-skill-item" data-en="Competitiveness" data-fa="رقابت‌پذیری">Competitiveness
+                        </div>
+                        <div class="soft-skill-item" data-en="Curiosity" data-fa="کنجکاوی">Curiosity</div>
+                        <div class="soft-skill-item" data-en="Interested in Learning" data-fa="علاقه‌مند به یادگیری">
+                            Interested in Learning</div>
+                        <div class="soft-skill-item" data-en="Team Work" data-fa="کار تیمی">Team Work</div>
+                        <div class="soft-skill-item" data-en="Diligence" data-fa="سخت‌کوشی">Diligence</div>
+                    </div>
+                </section>
+            </aside>
+
+            <main class="content">
+                <section>
+                    <h3 class="section-title" data-en="Profile" data-fa="درباره من">Profile</h3>
+                    <p class="timeline-desc"
+                        data-en="Computer Engineering student with hands-on experience in machine learning, deep learning, NLP, and applied artificial intelligence. Experienced in building and integrating AI solutions, including machine learning models, transformer-based models, LLMs, RAG systems, AI agent workflows, and data pipelines. Proficient in Python, TensorFlow/Keras, PyTorch, Scikit-learn, Transformers, LangChain, LangGraph, and FastAPI, with hands-on experience in LLM fine-tuning, model building, and AI system integration. Also experienced in backend development and deploying AI capabilities through RESTful APIs and production-oriented services. Seeking an AI Engineer internship to contribute to real-world machine learning and AI systems."
+                        data-fa="دانشجوی مهندسی کامپیوتر با تجربه در توسعه Artificial Intelligence (AI) و Backend، با تمرکز ویژه بر Deep Learning و Machine Learning، NLP و Large Language Models (LLM). دارای تجربه عملی در PyTorch، TensorFlow، LangChain، LangGraph، شبکه‌های عصبی و Python. علاقه‌مند به طراحی، توسعه و پیاده‌سازی راهکارهای AI، Agentic AI و Generative AI در محیط‌های عملیاتی همراه با تجربه اجرای پروژه‌های REST API و RAG.">
+                        Computer Engineering student with hands-on experience in machine learning...
+                    </p>
+                </section>
+
+                <section>
+                    <h3 class="section-title" data-en="Internships" data-fa="کارآموزی‌ها">Internships</h3>
+                    <div class="timeline-item">
+                        <div class="timeline-header">
+                            <span class="timeline-title" data-en="AI & Backend Engineering Intern"
+                                data-fa="کارآموز مهندسی هوش مصنوعی و بک‌اند">AI & Backend Engineering Intern</span>
+                            <span class="timeline-date">May 2026 - Sep 2026</span>
+                        </div>
+                        <div class="timeline-subtitle">MHS Wealth Ecosystem</div>
+                        <div class="timeline-desc">
+                            <ul>
+                                <li data-en="Developed and documented RESTful APIs and contributed to backend services for production-oriented financial systems."
+                                    data-fa="توسعه و مستندسازی REST API و مشارکت در توسعه سرویس‌های Backend برای سامانه‌های عملیاتی مالی.">
+                                    Developed and documented RESTful APIs...</li>
+                                <li data-en="Designed and integrated AI agent workflows using LangChain and LangGraph for business applications."
+                                    data-fa="طراحی و یکپارچه‌سازی AI Agent Workflows با استفاده از LangChain و LangGraph برای کاربردهای کسب‌وکار.">
+                                    Designed and integrated AI agent workflows...</li>
+                                <li data-en="Contributed to AI-powered capabilities and backend components in collaboration with the technical team."
+                                    data-fa="مشارکت در توسعه و یکپارچه‌سازی قابلیت‌های AI و کامپوننت‌های Backend با همکاری تیم فنی.">
+                                    Contributed to AI-powered capabilities...</li>
+                                <li data-en="Worked on production projects involving AI agents, financial data retrieval, and backend system integration."
+                                    data-fa="کار بر روی پروژه‌های عملیاتی شامل AI Agentها، بازیابی داده‌های مالی و یکپارچه‌سازی سیستم‌های Backend.">
+                                    Worked on production projects...</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h3 class="section-title" data-en="Education" data-fa="سوابق تحصیلی">Education</h3>
+                    <div class="timeline-item">
+                        <div class="timeline-header">
+                            <span class="timeline-title" data-en="Undergraduate Student in Computer Engineering"
+                                data-fa="دانشجوی کارشناسی مهندسی کامپیوتر">Undergraduate Student in Computer
+                                Engineering</span>
+                            <span class="timeline-date">Sep 2023 - May 2027</span>
+                        </div>
+                        <div class="timeline-subtitle">Payamnoor</div>
+                        <div class="timeline-desc">
+                            <span
+                                data-en="Relevant Coursework: Artificial Intelligence, Data Structures & Algorithms, Computer Architecture"
+                                data-fa="دروس مرتبط: هوش مصنوعی، ساختمان داده و طراحی الگوریتم، مبانی کامپیوتر و برنامه‌نویسی، مهندسی نرم‌افزار">Relevant
+                                Coursework: Artificial Intelligence...</span>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h3 class="section-title" data-en="Projects" data-fa="پروژه‌ها">Projects</h3>
+
+                    <!-- 1. Designing LLMs -->
+                    <div class="timeline-item">
+                        <div class="timeline-header">
+                            <span class="timeline-title" data-en="Designing LLMs"
+                                data-fa="طراحی و پیاده‌سازی LLMها">Designing LLMs</span>
+                            <span class="timeline-date">Sample Work</span>
+                        </div>
+                        <div class="timeline-desc">
+                            <ul>
+                                <li data-en="Built LLMs from the ground up by implementing Transformer architectures, training pipelines, tokenization, and inference."
+                                    data-fa="ساخت LLMها از صفر با پیاده‌سازی معماری Transformer، پایپ‌لاین‌های آموزش، توکن‌سازی و استنتاج.">
+                                    Built LLMs from the ground up...</li>
+                                <li data-en="Developed GPT, LLaMA, Qwen, and DeepSeek-style model architectures to study the complete LLM development lifecycle."
+                                    data-fa="توسعه معماری‌های مدل به سبک GPT، LLaMA، Qwen و DeepSeek برای بررسی چرخه کامل توسعه LLM.">
+                                    Developed GPT, LLaMA, Qwen, and DeepSeek-style...</li>
+                                <li data-en="Curated custom training datasets and experimented with model training, generation, and inference."
+                                    data-fa="جمع‌آوری دیتاست‌های آموزشی سفارشی و آزمایش بر روی آموزش مدل، تولید و استنتاج.">
+                                    Curated custom training datasets...</li>
+                                <li data-en="Gained hands-on experience in deep learning, NLP, Transformer architectures, and language model development."
+                                    data-fa="کسب تجربه عملی در یادگیری عمیق، NLP، معماری Transformer و توسعه مدل‌های زبانی.">
+                                    Gained hands-on experience in deep learning...</li>
+                            </ul>
+                            <a href="https://github.com/sirUnchained/design-llms" class="project-link"
+                                target="_blank">https://github.com/sirUnchained/design-llms</a>
+                        </div>
+                    </div>
+
+                    <!-- 2. Text to SQL -->
+                    <div class="timeline-item">
+                        <div class="timeline-header">
+                            <span class="timeline-title" data-en="Text to SQL" data-fa="تبدیل متن به SQL">Text to
+                                SQL</span>
+                            <span class="timeline-date">Jul 2026 - Jul 2026</span>
+                        </div>
+                        <div class="timeline-subtitle" data-en="Sample Work" data-fa="نمونه کار">Sample Work</div>
+                        <div class="timeline-desc">
+                            <ul>
+                                <li data-en="Created a dataset of 2,500 SQL queries using large language models for natural language to SQL generation."
+                                    data-fa="طراحی و تولید دیتاست ۲۵۰۰ نمونه‌ای کوئری SQL با استفاده از مدل‌های زبانی بزرگ برای تولید SQL از زبان طبیعی.">
+                                    Created a dataset of 2,500 SQL queries...</li>
+                                <li data-en="Fine-tuned the Gemma 3 270M-IT language model using QLoRA for Text-to-SQL generation."
+                                    data-fa="فاین‌تیون مدل Gemma 3 270M-IT با استفاده از QLoRA برای تولید Text-to-SQL.">
+                                    Fine-tuned the Gemma 3 270M-IT...</li>
+                                <li data-en="Achieved 85% Mean Token Accuracy on the test dataset."
+                                    data-fa="دستیابی به دقت ۸۵٪ (Mean Token Accuracy) روی دیتاست تست.">Achieved 85% Mean
+                                    Token Accuracy...</li>
+                                <li data-en="Applied NLP, transformer-based language modeling, and parameter-efficient fine-tuning techniques."
+                                    data-fa="به‌کارگیری تکنیک‌های NLP، مدل‌سازی زبانی مبتنی بر Transformer و فاین‌تیون پارامتر-کارآمد.">
+                                    Applied NLP, transformer-based language modeling...</li>
+                            </ul>
+                            <a href="https://huggingface.co/sirunchained/text-to-sql-model-v2" class="project-link"
+                                target="_blank">https://huggingface.co/sirunchained/text-to-sql-model-v2</a>
+                        </div>
+                    </div>
+
+                    <!-- 3. Support Agent -->
+                    <div class="timeline-item">
+                        <div class="timeline-header">
+                            <span class="timeline-title" data-en="Support Agent"
+                                data-fa="ایجنت پشتیبان (Support Agent)">Support Agent</span>
+                            <span class="timeline-date">Jun 2026 - Jun 2026</span>
+                        </div>
+                        <div class="timeline-subtitle">MHS</div>
+                        <div class="timeline-desc">
+                            <ul>
+                                <li data-en="Designed and implemented an AI support agent using LangGraph and FastAPI."
+                                    data-fa="طراحی و پیاده‌سازی یک AI Agent پشتیبانی بر اساس معماری LangGraph و FastAPI.">
+                                    Designed and implemented an AI support agent...</li>
+                                <li data-en="Integrated short- and long-term memory using PostgreSQL and pgvector, web search via Tavily, and financial data retrieval via Yahoo Finance."
+                                    data-fa="پیاده‌سازی حافظه کوتاه‌مدت و بلندمدت با PostgreSQL + pgvector، جستجوی وب با Tavily و داده‌های مالی لحظه‌ای با Yahoo Finance.">
+                                    Integrated short- and long-term memory...</li>
+                                <li data-en="Implemented RAG-based knowledge retrieval and tool-calling workflows for AI-assisted support."
+                                    data-fa="پیاده‌سازی RAG برای بازیابی دانش و ورک‌فلوهای فراخوانی ابزار برای پشتیبانی هوشمند.">
+                                    Implemented RAG-based knowledge retrieval...</li>
+                                <li data-en="Added PII leakage prevention, out-of-scope question routing, and user feedback collection."
+                                    data-fa="پیاده‌سازی تشخیص و جلوگیری از افشای PII، ارجاع سوالات خارج از حوزه و دریافت بازخورد کاربران.">
+                                    Added PII leakage prevention...</li>
+                                <li data-en="Integrated AI capabilities into a production-oriented backend service."
+                                    data-fa="یکپارچه‌سازی قابلیت‌های AI در یک سرویس Backend عملیاتی.">Integrated AI
+                                    capabilities into a production-oriented...</li>
+                            </ul>
+                            <a href="https://github.com/sirUnchained/MHS-Intern-projects/tree/main/phase-2/QA-agent"
+                                class="project-link"
+                                target="_blank">https://github.com/sirUnchained/MHS-Intern-projects/tree/main/phase-2/QA-agent</a>
+                        </div>
+                    </div>
+
+                    <!-- 4. Gold Agent -->
+                    <div class="timeline-item">
+                        <div class="timeline-header">
+                            <span class="timeline-title" data-en="Gold Agent" data-fa="ایجنت طلا (Gold Agent)">Gold
+                                Agent</span>
+                            <span class="timeline-date">May 2026 - May 2026</span>
+                        </div>
+                        <div class="timeline-subtitle">MHS Group</div>
+                        <div class="timeline-desc">
+                            <ul>
+                                <li data-en="Designed and developed an intelligent AI Agent using LangChain and LangGraph."
+                                    data-fa="طراحی و توسعه یک AI Agent هوشمند با استفاده از LangChain و LangGraph.">
+                                    Designed and developed an intelligent AI Agent...</li>
+                                <li data-en="Implemented web search, short-term memory, and financial data retrieval for gold-price analysis."
+                                    data-fa="پیاده‌سازی جستجوی وب، حافظه کوتاه‌مدت و بازیابی داده‌های مالی برای تحلیل قیمت طلا.">
+                                    Implemented web search, short-term memory...</li>
+                                <li data-en="Developed an ETL data pipeline to collect, transform, and store financial data in SQLite."
+                                    data-fa="توسعه ETL Pipeline برای جمع‌آوری، تبدیل و ذخیره‌سازی داده‌ها در SQLite.">
+                                    Developed an ETL data pipeline...</li>
+                                <li data-en="Integrated AI agent workflows with backend data processing components."
+                                    data-fa="یکپارچه‌سازی ورک‌فلوهای AI Agent با کامپوننت‌های پردازش داده Backend.">
+                                    Integrated AI agent workflows with backend...</li>
+                            </ul>
+                            <a href="https://huggingface.co/spaces/sirunchained/MHS-gold-agent" class="project-link"
+                                target="_blank">https://huggingface.co/spaces/sirunchained/MHS-gold-agent</a>
+                        </div>
+                    </div>
+
+                    <!-- 5. VibeThinker-1.5B GGUF -->
+                    <div class="timeline-item">
+                        <div class="timeline-header">
+                            <span class="timeline-title" data-en="VibeThinker-1.5B GGUF"
+                                data-fa="VibeThinker-1.5B GGUF">VibeThinker-1.5B GGUF</span>
+                            <span class="timeline-date">Sample Work</span>
+                        </div>
+                        <div class="timeline-desc">
+                            <ul>
+                                <li data-en="Converted the VibeThinker-1.5B model to GGUF format using llama.cpp for compatibility with lightweight inference engines."
+                                    data-fa="تبدیل مدل VibeThinker-1.5B به فرمت GGUF با استفاده از llama.cpp برای سازگاری با موتورهای استنتاج سبک.">
+                                    Converted the VibeThinker-1.5B model to GGUF format using llama.cpp...</li>
+                                <li data-en="Produced multiple quantization levels including FP16, Q4_K_M, Q5_K_M, Q6_K, and Q8_0 to optimize model size and performance trade-offs."
+                                    data-fa="تولید سطوح مختلف کوانتیزاسیون شامل FP16، Q4_K_M، Q5_K_M، Q6_K و Q8_0 برای بهینه‌سازی تعادل اندازه و عملکرد مدل.">
+                                    Produced multiple quantization levels including FP16, Q4_K_M...</li>
+                                <li data-en="Enabled efficient local deployment of a 2B parameter Qwen2-based model on resource-constrained hardware."
+                                    data-fa="فراهم‌سازی امکان استقرار محلی کارآمد یک مدل ۲ میلیارد پارامتری مبتنی بر Qwen2 روی سخت‌افزار محدود.">
+                                    Enabled efficient local deployment of a 2B parameter Qwen2-based model...</li>
+                            </ul>
+                            <a href="https://huggingface.co/sirunchained/VibeThinker-1.5B-gguf" class="project-link"
+                                target="_blank">https://huggingface.co/sirunchained/VibeThinker-1.5B-gguf</a>
+                        </div>
+                    </div>
+
+                    <!-- 6. My Instagram (Golang) -->
+                    <div class="timeline-item">
+                        <div class="timeline-header">
+                            <span class="timeline-title" data-en="My Instagram (Golang)"
+                                data-fa="اینستاگرام من (Golang)">My Instagram (Golang)</span>
+                            <span class="timeline-date">Jun 2024 - Jun 2024</span>
+                        </div>
+                        <div class="timeline-subtitle" data-en="Sample Work" data-fa="نمونه کار">Sample Work</div>
+                        <div class="timeline-desc">
+                            <ul>
+                                <li data-en="Designed and implemented a backend for an Instagram-like social network using Go."
+                                    data-fa="طراحی و پیاده‌سازی Backend یک شبکه اجتماعی مشابه اینستاگرام با استفاده از Go.">
+                                    Designed and implemented a backend...</li>
+                                <li data-en="Developed more than 20 RESTful APIs and integrated PostgreSQL and Redis for data management and performance."
+                                    data-fa="پیاده‌سازی بیش از ۲۰ REST API و استفاده از PostgreSQL و Redis برای مدیریت داده و بهبود عملکرد.">
+                                    Developed more than 20 RESTful APIs...</li>
+                            </ul>
+                            <a href="https://github.com/sirUnchained/my_go-instagram" class="project-link"
+                                target="_blank">https://github.com/sirUnchained/my_go-instagram</a>
+                        </div>
+                    </div>
+
+                    <!-- 7. Advance Shop -->
+                    <div class="timeline-item">
+                        <div class="timeline-header">
+                            <span class="timeline-title" data-en="Advance Shop - Multi-Vendor E-Commerce Backend"
+                                data-fa="Advance Shop - بک‌اند فروشگاه چندفروشندگی">Advance Shop - Multi-Vendor
+                                E-Commerce Backend</span>
+                            <span class="timeline-date">Jun 2024 - Dec 2024</span>
+                        </div>
+                        <div class="timeline-desc">
+                            <ul>
+                                <li data-en="Developed a multi-vendor e-commerce backend using TypeScript, MongoDB, and Redis for data management and performance optimization."
+                                    data-fa="توسعه بک‌اند یک پلتفرم فروشندگی چندفروشندگی با TypeScript، MongoDB و Redis برای مدیریت داده و بهینه‌سازی عملکرد.">
+                                    Developed a multi-vendor e-commerce backend using TypeScript, MongoDB, and Redis...
+                                </li>
+                                <li data-en="Implemented core features including user authentication, OTP-based phone verification, seller management, and payment gateway integration via Zarinpal."
+                                    data-fa="پیاده‌سازی امکانات اصلی شامل احراز هویت کاربران، تأیید شماره تلفن با OTP، مدیریت فروشندگان و درگاه پرداخت از طریق زرین‌پال.">
+                                    Implemented core features including user authentication, OTP-based phone
+                                    verification...</li>
+                                <li data-en="Designed and built the backend architecture for a multi-shop platform similar to Divar with vendor onboarding capabilities."
+                                    data-fa="طراحی و ساخت معماری بک‌اند یک پلتفرم چندفروشگاهی مشابه دیوار با قابلیت مدیریت فروشندگان.">
+                                    Designed and built the backend architecture for a multi-shop platform...</li>
+                            </ul>
+                            <a href="https://github.com/sirUnchained/advance_shop" class="project-link"
+                                target="_blank">https://github.com/sirUnchained/advance_shop</a>
+                        </div>
+                    </div>
+
+                    <!-- 8. Bad Comment -->
+                    <div class="timeline-item">
+                        <div class="timeline-header">
+                            <span class="timeline-title" data-en="Bad Comment - Persian Offensive Text Classifier"
+                                data-fa="Bad Comment - طبقه‌بند متن توهین‌آمیز فارسی">Bad Comment - Persian Offensive
+                                Text Classifier</span>
+                            <span class="timeline-date">Sample Work</span>
+                        </div>
+                        <div class="timeline-desc">
+                            <ul>
+                                <li data-en="Developed a Persian offensive text classifier using scikit-learn with TF-IDF vectorization and SVM (RBF kernel), exported to ONNX for efficient inference."
+                                    data-fa="توسعه یک طبقه‌بند متن توهین‌آمیز فارسی با scikit-learn، استفاده از TF-IDF و SVM (کرنل RBF) و خروجی ONNX برای استنتاج کارآمد.">
+                                    Developed a Persian offensive text classifier using scikit-learn...</li>
+                                <li data-en="Trained on the ParsOffensive dataset with preprocessing steps including normalization, lemmatization via Hazm, and ADASYN for class imbalance."
+                                    data-fa="آموزش روی دیتاست ParsOffensive با مراحل پیش‌پردازش شامل نرمال‌سازی، لم‌سازی با Hazm و ADASYN برای رفع عدم تعادل کلاس‌ها.">
+                                    Trained on the ParsOffensive dataset with preprocessing steps...</li>
+                                <li data-en="Achieved 83% accuracy, 91% precision, and 74% F1-score in detecting offensive Persian comments."
+                                    data-fa="دستیابی به دقت ۸۳٪، پریسیژن ۹۱٪ و F1-score ۷۴٪ در تشخیص نظرات توهین‌آمیز فارسی.">
+                                    Achieved 83% accuracy, 91% precision, and 74% F1-score...</li>
+                            </ul>
+                            <a href="https://huggingface.co/sirunchained/bad-comment" class="project-link"
+                                target="_blank">https://huggingface.co/sirunchained/bad-comment</a>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="footer-links">
+                    <a href="https://github.com/sirUnchained" class="footer-btn" target="_blank">🐙 GitHub</a>
+                    <a href="https://huggingface.co/sirunchained" class="footer-btn" target="_blank">🤗 Hugging Face</a>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.bundle.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // ==================== PARTICLES (SAFE RELOAD) ====================
+            let particlesContainer = null;
+
+            async function initParticles(color) {
+                // Destroy previous container if exists
+                if (particlesContainer) {
+                    try {
+                        await particlesContainer.destroy();
+                    } catch (e) { /* ignore */ }
+                    particlesContainer = null;
+                }
+
+                // Make sure the particles div exists in DOM
+                let particlesEl = document.getElementById('particles-js');
+                if (!particlesEl) {
+                    particlesEl = document.createElement('div');
+                    particlesEl.id = 'particles-js';
+                    particlesEl.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;';
+                    document.body.prepend(particlesEl);
+                } else {
+                    // Clear any leftover canvas
+                    particlesEl.innerHTML = '';
+                }
+
+                // Load fresh particles
+                particlesContainer = await tsParticles.load("particles-js", {
+                    fpsLimit: 60,
+                    particles: {
+                        number: { value: 50, density: { enable: true, value_area: 800 } },
+                        color: { value: color },
+                        shape: { type: "circle" },
+                        opacity: { value: 0.3, random: true },
+                        size: { value: 3, random: true },
+                        links: { enable: true, distance: 150, color: color, opacity: 0.2, width: 1 },
+                        move: { enable: true, speed: 1.5, direction: "none", random: false, straight: false, out_mode: "out" }
+                    },
+                    interactivity: {
+                        events: { onhover: { enable: true, mode: "grab" }, onclick: { enable: true, mode: "push" } },
+                        modes: { grab: { distance: 140, line_linked: { opacity: 0.5 } }, push: { particles_nb: 4 } }
+                    }
+                });
+            }
+
+            // ==================== TYPED.JS ====================
+            let typed;
+            function initTyped(lang) {
+                const strings = lang === 'en'
+                    ? ["Computer Engineering Student", "AI Engineer", "Backend Developer", "LLM Enthusiast"]
+                    : ["دانشجوی مهندسی کامپیوتر", "مهندس هوش مصنوعی", "توسعه‌دهنده بک‌اند", "علاقه‌مند به LLM"];
+
+                if (typed) { typed.destroy(); }
+                typed = new Typed('#typed-text', {
+                    strings: strings,
+                    typeSpeed: 50,
+                    backSpeed: 30,
+                    loop: true,
+                    backDelay: 2000
+                });
+            }
+
+            // ==================== LANGUAGE TOGGLE ====================
+            const langToggle = document.getElementById('langToggle');
+            const htmlElement = document.documentElement;
+            let currentLang = 'en';
+
+            function setLanguage(lang) {
+                currentLang = lang;
+                htmlElement.setAttribute('lang', lang);
+                htmlElement.setAttribute('dir', lang === 'fa' ? 'rtl' : 'ltr');
+
+                langToggle.textContent = lang === 'en' ? '🇮🇷 فارسی' : '🇬🇧 English';
+
+                document.querySelectorAll('[data-en][data-fa]').forEach(el => {
+                    el.textContent = el.getAttribute(`data-${lang}`);
+                });
+
+                initTyped(lang);
+            }
+
+            if (langToggle) {
+                langToggle.addEventListener('click', () => {
+                    setLanguage(currentLang === 'en' ? 'fa' : 'en');
+                });
+            }
+
+            // ==================== THEME TOGGLE ====================
+            const themeToggle = document.getElementById('themeToggle');
+            const savedTheme = localStorage.getItem('theme') || 'light';
+
+            htmlElement.setAttribute('data-theme', savedTheme);
+            themeToggle.textContent = savedTheme === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode';
+
+            themeToggle.addEventListener('click', async () => {
+                const currentTheme = htmlElement.getAttribute('data-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+                htmlElement.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                themeToggle.textContent = newTheme === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode';
+
+                // Reinitialize particles with new color
+                const particleColor = newTheme === 'dark' ? "#4A90E2" : "#0A4A7A";
+                await initParticles(particleColor);
+            });
+
+            // ==================== INITIAL LOAD ====================
+            setLanguage('en');
+
+            // Load particles based on initial theme
+            const initialColor = savedTheme === 'dark' ? "#4A90E2" : "#0A4A7A";
+            initParticles(initialColor);
+        });
+    </script>
+</body>
+
+</html>
