@@ -4,7 +4,10 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>DONT TYPE unchained!</title>
+    <title>Behnam Resume</title>
+
+    <link rel="icon" href="https://ui-avatars.com/api/?name=B&size=512&background=0D8ABC&color=fff&bold=true&format=png"
+        sizes="any">
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
@@ -18,7 +21,7 @@
             --muted-text: #555;
             --date-color: #777;
             --bg-color: #f4f4f9;
-            --card-bg: #ffffff;
+            --card-bg: #ffffffcf;
             --border-color: #ddd;
             --font-en: 'Inter', sans-serif;
             --font-fa: 'Vazirmatn', sans-serif;
@@ -31,7 +34,7 @@
             --muted-text: #b0b0b0;
             --date-color: #999;
             --bg-color: #121212;
-            --card-bg: #1e1e1e;
+            --card-bg: #1e1e1ecf;
             --border-color: #333;
         }
 
@@ -1555,6 +1558,158 @@
                     if (wave > LAYERS.length) wave = null;
                 }
 
+                // ================= LIGHTNING =================
+                const MAX_SEG = 300;
+                const LT_END = 1.2;                                // طول عمر یک ضربه (ثانیه)
+                const boltPos = new Float32Array(MAX_SEG * 6);
+                const boltGlowPos = new Float32Array(MAX_SEG * 3);
+
+                const boltGeo = new THREE.BufferGeometry();
+                boltGeo.setAttribute('position', new THREE.BufferAttribute(boltPos, 3));
+                boltGeo.setDrawRange(0, 0);
+                const boltMat = new THREE.LineBasicMaterial({ color: 0x4A90E2, transparent: true, opacity: 0, depthWrite: false });
+                const bolt = new THREE.LineSegments(boltGeo, boltMat);
+                bolt.frustumCulled = false;
+                scene.add(bolt);
+
+                const boltGlowGeo = new THREE.BufferGeometry();
+                boltGlowGeo.setAttribute('position', new THREE.BufferAttribute(boltGlowPos, 3));
+                boltGlowGeo.setDrawRange(0, 0);
+                const boltGlowMat = new THREE.PointsMaterial({ size: 0.55, map: glowTex, transparent: true, opacity: 0, depthWrite: false, sizeAttenuation: true });
+                const boltGlow = new THREE.Points(boltGlowGeo, boltGlowMat);
+                boltGlow.frustumCulled = false;
+                scene.add(boltGlow);
+
+                const flashMat = new THREE.SpriteMaterial({ map: glowTex, transparent: true, opacity: 0, depthWrite: false });
+                const flash = new THREE.Sprite(flashMat);
+                scene.add(flash);
+
+                let segCount = 0, lt = 99, bIntense = false, strikeAt = 6, boltKey = '';
+
+                function addSeg(p, q) {
+                    if (segCount >= MAX_SEG) return;
+                    const i = segCount * 6;
+                    boltPos[i] = p.x; boltPos[i + 1] = p.y; boltPos[i + 2] = p.z;
+                    boltPos[i + 3] = q.x; boltPos[i + 4] = q.y; boltPos[i + 5] = q.z;
+                    boltGlowPos[segCount * 3] = q.x; boltGlowPos[segCount * 3 + 1] = q.y; boltGlowPos[segCount * 3 + 2] = q.z;
+                    segCount++;
+                }
+
+                // خط شکسته با روش midpoint displacement
+                function jagPoints(a, b, disp, depth) {
+                    let pts = [a, b];
+                    for (let d = 0; d < depth; d++) {
+                        const nxt = [pts[0]];
+                        for (let i = 0; i < pts.length - 1; i++) {
+                            const p = pts[i], q = pts[i + 1];
+                            nxt.push({
+                                x: (p.x + q.x) / 2 + (Math.random() - 0.5) * disp,
+                                y: (p.y + q.y) / 2 + (Math.random() - 0.5) * disp * 0.4,
+                                z: (p.z + q.z) / 2 + (Math.random() - 0.5) * disp * 0.4
+                            }, q);
+                        }
+                        pts = nxt;
+                        disp *= 0.55;
+                    }
+                    return pts;
+                }
+
+                // رنگ و blending بر اساس تم (آبی/قرمز، روشن/تاریک)
+                function applyBoltStyle() {
+                    const dark = currentTheme === 'dark';
+                    const key = (dark ? 'd' : 'l') + (unchained ? 'u' : 'n');
+                    if (key === boltKey) return;
+                    boltKey = key;
+                    const P = unchained
+                        ? (dark ? [0xFFD0C8, 0xFF3B3B, 0xFF2A2A] : [0xC62828, 0xFF1744, 0xFF5252])
+                        : (dark ? [0xCFE6FF, 0x4A90E2, 0x4A90E2] : [0x0A4A7A, 0x1E88E5, 0x4A90E2]);
+                    boltMat.color.setHex(P[0]);
+                    boltGlowMat.color.setHex(P[1]);
+                    flashMat.color.setHex(P[2]);
+                    const blend = dark ? THREE.AdditiveBlending : THREE.NormalBlending;
+                    [boltMat, boltGlowMat, flashMat].forEach(m => { m.blending = blend; m.needsUpdate = true; });
+                }
+
+                function strike() {
+                    applyBoltStyle();
+                    bIntense = unchained;
+                    segCount = 0;
+
+                    // یه عمق رندوم پشت شبکه؛ ابعاد دید در اون عمق رو حساب می‌کنیم
+                    const z = -6 - Math.random() * 12;
+                    const dist = camera.position.z - z;
+                    const hh = Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) * dist;
+                    const hw = hh * camera.aspect;
+
+                    const x0 = (Math.random() * 2 - 1) * hw * 0.9;
+                    const top = { x: x0, y: hh * 1.05, z };
+                    const bot = { x: x0 + (Math.random() - 0.5) * hw * 0.5, y: -hh * (0.2 + Math.random() * 0.7), z: z + (Math.random() - 0.5) * 4 };
+                    const main = jagPoints(top, bot, hh * 0.35, 6);
+                    for (let i = 0; i < main.length - 1; i++) addSeg(main[i], main[i + 1]);
+
+                    // شاخه‌های فرعی
+                    const nBr = bIntense ? 5 : 2 + Math.floor(Math.random() * 2);
+                    for (let k = 0; k < nBr; k++) {
+                        const s = main[6 + Math.floor(Math.random() * (main.length - 12))];
+                        const dir = Math.random() < 0.5 ? -1 : 1;
+                        const end = {
+                            x: s.x + dir * hh * (0.25 + Math.random() * 0.5),
+                            y: s.y - hh * (0.25 + Math.random() * 0.5),
+                            z: s.z + (Math.random() - 0.5) * 3
+                        };
+                        const br = jagPoints(s, end, hh * 0.18, 4);
+                        for (let i = 0; i < br.length - 1; i++) addSeg(br[i], br[i + 1]);
+                    }
+
+                    boltGeo.setDrawRange(0, segCount * 2);
+                    boltGeo.attributes.position.needsUpdate = true;
+                    boltGlowGeo.setDrawRange(0, segCount);
+                    boltGlowGeo.attributes.position.needsUpdate = true;
+
+                    flash.position.set(x0, hh * 0.5, z - 3);
+                    flash.scale.set(hw * 2.2, hh * 1.6, 1);
+
+                    // واکنش شبکه به رعد
+                    const f = bIntense ? 1 : 0.4;
+                    nodes.forEach(n => { n.energy = Math.max(n.energy, f * (0.5 + Math.random() * 0.5)); });
+                    boost = Math.max(boost, bIntense ? 5 : 2.2);
+
+                    lt = 0;
+                    strikeAt = bIntense ? 0.7 + Math.random() * 1.9 : 4 + Math.random() * 7;
+                }
+
+                // چند سوسو پشت‌سرهم، هرکدوم با محو شدن سریع
+                function envelope(t, intense) {
+                    const pulses = intense ? [0, 0.08, 0.16, 0.3, 0.42] : [0, 0.1, 0.22];
+                    let v = 0;
+                    pulses.forEach((p, i) => {
+                        const x = t - p;
+                        if (x >= 0) v = Math.max(v, Math.exp(-x * (i === 0 ? 7 : 11)) * (i === 0 ? 1 : 0.8));
+                    });
+                    return v;
+                }
+
+                function updateLightning(dt) {
+                    if (reduceMotion || introT < INTRO_END) return;
+
+                    if (lt < LT_END) {
+                        lt += dt;
+                        const dark = currentTheme === 'dark';
+                        const env = envelope(lt, bIntense);
+                        boltMat.opacity = Math.min(1, env * 1.1);
+                        boltGlowMat.opacity = env * (dark ? 0.55 : 0.45);
+                        flashMat.opacity = env * (dark ? (bIntense ? 0.6 : 0.38) : (bIntense ? 0.3 : 0.2));
+                        if (lt >= LT_END) {
+                            boltMat.opacity = boltGlowMat.opacity = flashMat.opacity = 0;
+                            boltGeo.setDrawRange(0, 0);
+                            boltGlowGeo.setDrawRange(0, 0);
+                        }
+                    }
+
+                    strikeAt -= dt;
+                    if (strikeAt <= 0) strike();
+                }
+
                 // ================= THEME / UNCHAINED =================
                 function setTheme(theme) {
                     if (theme) currentTheme = theme;
@@ -1590,6 +1745,7 @@
 
                 function setUnchained(on) {
                     unchained = on;
+                    strikeAt = on ? 0 : 3;
                     applyPulseCount();
                     if (on) {
                         boost = 6;
@@ -1651,6 +1807,7 @@
                     brainStep(dt, time);
                     updatePulses(dt);
                     updateWave(dt);
+                    updateLightning(dt);
                     updateNodes(dt, time);
                     render();
                 }
@@ -1684,10 +1841,38 @@
             function startGlitch() {
                 const el = document.getElementById('typed-text');
                 const slow = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-                let len = 16;
+                const WORD = 'UNCHAINED';
+                const glyph = () => GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
+                let len = 16, revealStart = 0, thr = [];
+                let nextReveal = performance.now() + 1200;
                 el.style.letterSpacing = '0.15em';
+
                 glitchTimer = setInterval(() => {
-                    len = Math.max(7, Math.min(28, len + Math.round((Math.random() - 0.5) * 6)));
+                    const now = performance.now();
+
+                    if (!revealStart && now >= nextReveal) {
+                        revealStart = now;
+                        thr = Array.from(WORD, () => Math.random() * 0.85);   // ترتیب رندوم قفل شدن حروف
+                    }
+
+                    if (revealStart) {
+                        const t = now - revealStart;
+                        if (t >= 2400) {
+                            revealStart = 0;
+                            nextReveal = now + 2500 + Math.random() * 3000;
+                            el.style.textShadow = '';
+                        } else {
+                            // vanishing interval
+                            const p = t < 900 ? t / 900 : t < 1900 ? 1 : 1 - (t - 1900) / 900;
+                            let s = '';
+                            for (let i = 0; i < WORD.length; i++) s += p > thr[i] ? WORD[i] : glyph();
+                            el.textContent = s;
+                            el.style.textShadow = p >= 0.99 ? '0 0 14px rgba(255,255,255,.9)' : '';
+                            return;
+                        }
+                    }
+
+                    len = Math.max(10, Math.min(28, len + Math.round((Math.random() - 0.5) * 6)));
                     el.textContent = randGlyphs(len);
                 }, slow ? 500 : 90);
             }
@@ -1695,7 +1880,9 @@
             function stopGlitch() {
                 clearInterval(glitchTimer);
                 glitchTimer = null;
-                document.getElementById('typed-text').style.letterSpacing = '';
+                const el = document.getElementById('typed-text');
+                el.style.letterSpacing = '';
+                el.style.textShadow = '';
             }
 
             let typed;
@@ -1708,6 +1895,7 @@
                 const strings = lang === 'en'
                     ? ["Computer Engineering Student", "AI Engineer", "Backend Developer", "LLM Enthusiast"]
                     : ["دانشجوی مهندسی کامپیوتر", "مهندس هوش مصنوعی", "توسعه‌دهنده بک‌اند", "علاقه‌مند به LLM"];
+
 
                 typed = new Typed('#typed-text', {
                     strings: strings,
