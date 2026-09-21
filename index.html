@@ -1838,7 +1838,11 @@
                 return s;
             }
 
+            let typed = 0, glitchGen = 0;   // شماره‌ی نسل: اینتروال‌های قدیمی خودشون رو خاموش می‌کنن
+
             function startGlitch() {
+                stopGlitch();                                   // فقط یک اینتروال زنده
+                const gen = ++glitchGen;
                 const el = document.getElementById('typed-text');
                 const slow = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
                 const WORD = 'UNCHAINED';
@@ -1847,7 +1851,8 @@
                 let nextReveal = performance.now() + 1200;
                 el.style.letterSpacing = '0.15em';
 
-                glitchTimer = setInterval(() => {
+                const id = setInterval(() => {
+                    if (gen !== glitchGen || !isUnchained) { clearInterval(id); return; }
                     const now = performance.now();
 
                     if (!revealStart && now >= nextReveal) {
@@ -1862,11 +1867,17 @@
                             nextReveal = now + 2500 + Math.random() * 3000;
                             el.style.textShadow = '';
                         } else {
-                            // vanishing interval
-                            const p = t < 900 ? t / 900 : t < 1900 ? 1 : 1 - (t - 1900) / 900;
-                            let s = '';
-                            for (let i = 0; i < WORD.length; i++) s += p > thr[i] ? WORD[i] : glyph();
-                            el.textContent = s;
+                            // 0–0.7s رمزگشایی، تا 1.7s نگه داشتن، تا 2.4s دوباره محو شدن
+                            const p = t < 700 ? t / 700 : t < 1700 ? 1 : 1 - (t - 1700) / 700;
+                            let word = '';
+                            for (let i = 0; i < WORD.length; i++) {
+                                const locked = p > thr[i];
+                                // موقع نگه‌داشتن هم گاهی حروف چشمک می‌زنن تا انیمیشن هیچ‌وقت نایست
+                                word += (locked && !(p >= 0.99 && Math.random() < 0.08)) ? WORD[i] : glyph();
+                            }
+                            el.textContent =
+                                randGlyphs(2 + Math.floor(Math.random() * 3)) + ' ' + word + ' ' +
+                                randGlyphs(2 + Math.floor(Math.random() * 3));
                             el.style.textShadow = p >= 0.99 ? '0 0 14px rgba(255,255,255,.9)' : '';
                             return;
                         }
@@ -1875,9 +1886,11 @@
                     len = Math.max(10, Math.min(28, len + Math.round((Math.random() - 0.5) * 6)));
                     el.textContent = randGlyphs(len);
                 }, slow ? 500 : 90);
+                glitchTimer = id;
             }
 
             function stopGlitch() {
+                glitchGen++;
                 clearInterval(glitchTimer);
                 glitchTimer = null;
                 const el = document.getElementById('typed-text');
@@ -1885,17 +1898,19 @@
                 el.style.textShadow = '';
             }
 
-            let typed;
             function initTyped(lang) {
                 if (typed) { typed.destroy(); typed = null; }
                 stopGlitch();
+
+                const el = document.getElementById('typed-text');
+                el.textContent = '';                                                    // متن باقی‌مانده‌ی glitch پاک بشه
+                document.querySelectorAll('.typed-cursor').forEach(c => c.remove());   // مکان‌نمای باقی‌مانده حذف بشه
 
                 if (isUnchained) { startGlitch(); return; }
 
                 const strings = lang === 'en'
                     ? ["Computer Engineering Student", "AI Engineer", "Backend Developer", "LLM Enthusiast"]
                     : ["دانشجوی مهندسی کامپیوتر", "مهندس هوش مصنوعی", "توسعه‌دهنده بک‌اند", "علاقه‌مند به LLM"];
-
 
                 typed = new Typed('#typed-text', {
                     strings: strings,
